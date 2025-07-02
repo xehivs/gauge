@@ -1,36 +1,40 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-def prod(x):
+
+def imply(x):
     return (x[:,None,:] * x[None,:,:]).reshape(-1,x.shape[1])
 
-def sum(x):
+def expand(x):
     return (x[:,None,:] + x[None,:,:]).reshape(-1,x.shape[1])
 
-seed_size = 32
-seed = np.array([
-    np.sin(np.linspace(0,np.pi*2,seed_size+1)),
-    np.cos(np.linspace(0,np.pi*2,seed_size+1))
+q = 128
+
+carrier = np.array([
+    np.sin(np.linspace(-np.pi,np.pi,q+1)),
+    np.cos(np.linspace(-np.pi,np.pi,q+1))
 ]).T
 
-# seed += np.random.normal(0,.1,size=seed.shape)
+signal = carrier + 0
+
+from scipy.signal import medfilt
+
+#signal += np.random.normal(0,.1,size=carrier.shape)
+
+#signal[:,0] = medfilt(signal[:,0], 5)
+#signal[:,1] = medfilt(signal[:,1], 5)
 
 l = 1
 
-layers = [seed]
-for i in range(l):
-    layers.append(prod(layers[-1]))
+implication = imply(signal)
+expansion = expand(signal)
 
+canvas_shape = (6,6)
+bg = 'black'
 
-depths = [seed]
-for i in range(l):
-    depths.append(sum(depths[-1]))
-
-letter = (8.5, 11)
-
-fig, ax = plt.subplots(figsize=letter)
-fig.patch.set_facecolor('black')
-ax.set_facecolor('black')
+fig, ax = plt.subplots(figsize=canvas_shape)
+fig.patch.set_facecolor(bg)
+ax.set_facecolor(bg)
 
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
@@ -40,29 +44,20 @@ ax.spines['bottom'].set_visible(False)
 ax.set_xticks([])
 ax.set_yticks([])
 
-ax.text(-.05,2.5,'International\nStudents\nWorkshop', c='xkcd:salmon', ha='right', va='center', fontsize=32)
+plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
 
-ax.text(.05,-2.5,"Kamienna Góra'25", c='xkcd:salmon', ha='left', va='center', fontsize=16)
+fg = 'xkcd:salmon'
 
-#ax.text(0,-3.14,'ISBN 978-83-933924-2-1', c='xkcd:salmon', ha='center', va='center')
-
-plt.subplots_adjust(left=0.05, right=0.95, top=1, bottom=0)
-
-
-ax.plot(*seed.T, c='xkcd:salmon', lw=4)
-ax.plot(*layers[1].T, c='xkcd:salmon', lw=.5)
-ax.plot(*depths[1].T, c='xkcd:salmon', lw=.5)
-
-# ax.scatter(*seed.T, s=50, c='black')
-# ax.scatter(*layers[1].T, s=50, c='black')
-# ax.scatter(*depths[1].T, c='black')
+#ax.scatter(*signal.T, c=fg, s=32)
+#ax.scatter(*implication.T, c='white', s=1)
+ax.plot(*implication.T, c=fg, lw=.125)
+ax.plot(*expansion.T, c=fg, lw=.5)
 
 ax.set_aspect('equal')
 
-# plt.suptitle('International\nStudents Workshop', fontsize=48)
-
-# ax.set_xlim(-m*letter[0],m*letter[0])
-# ax.set_ylim(-m*letter[1],m*letter[1])
+r = 3
+ax.set_xlim(-r,r)
+ax.set_ylim(-r,r)
 
 plt.savefig('foo.png', dpi=500)
 plt.savefig('foo.eps')
