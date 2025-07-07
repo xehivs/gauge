@@ -1,50 +1,53 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include "ksienie.h"
 
+/* Constants */
 const float PI = 3.1416;
+const int W = 1024, H = 1024;
+const float M = 2., FX = 0, FY = .0;
 
+/* Digital image mapping */
+float xd(int px){ return (2*M*px/(W-1))-M-FX; }
+float yd(int py){ return (2*M*py/(H-1))-M-FY; }
+int ravel(int x, int y, int c) { return (x+y*W)*3+c; } // ravel
+
+/* Metric function */
+float metric(float x, float y, float p){
+    return sqrt(x*x + y*y);
+}
+
+/* Business logic */
+int is_circle(int px, int py, float cx, float cy, float radius){
+    float x = xd(px) - cx;
+    float y = yd(py) - cy;
+
+    float distance = metric(x, y, 1.);
+
+    int verify = distance < radius;
+
+    return verify*255;
+}
+
+/* main() function */
 int main(void){
     printf("Arche gauge start\n");
 
-    int val = 312;
-    float fval = (float) val;
-
-    char bunch[] = "Bunch'a words.";
-
-    printf("Value is %4i\n", val);
-    printf("Fvalue is %.3f\n", fval);
-    printf(bunch, "\n");
-
-    printf("%i\n", sizeof(val));
-    printf("%i\n", sizeof(bunch));
-
-    printf("%f\n", PI);
-
-    int flag = -1;
-
-    if (flag)
-    {
-        printf("ON!\n");
-    }
-    else {
-        printf("OFF!\n");
-    }
-
-    int q = 1024;
-    int signal[q*q];
-
-    for (int i = 0; i < q; i++)
-    {
-        for (int j = 0; j < q; j++)
-        {
-            /* code */
-            signal[i*q+j] = (i+j) % 255;
+    unsigned char *img = NULL;
+    img = (unsigned char *)malloc(3*W*H);    
+    memset(img,0,3*W*H);
+    
+    for (int px=0 ; px<W ; px++){
+        for (int py=0 ; py<H ; py++){
+            img[ravel(px,py,0)] = is_circle(px, py, 0., .0, 1.);
+            img[ravel(px,py,1)] = is_circle(px, py, 0., .0, 1.5);
+            img[ravel(px,py,2)] = is_circle(px, py, 1.25, .0, 1.75);
         }
-        
     }
 
-    printf("Value is %4i\n", val);
-
-    printf("%i\n", signal[2137]);
+    bmp(img, W, H);
 
     return 0;
 }
