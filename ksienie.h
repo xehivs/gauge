@@ -1,3 +1,9 @@
+double _abs(double v){
+    if (v < 0) {
+        return -v;
+    }
+    return v;
+}
 
 void bmp(unsigned char * image, int w, int h){
     FILE *f;

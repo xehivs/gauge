@@ -1,7 +1,7 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 #include "ksienie.h"
 
 /* Constants */
@@ -15,8 +15,16 @@ float yd(int py){ return (2*M*py/(H-1))-M-FY; }
 int ravel(int x, int y, int c) { return (x+y*W)*3+c; } // ravel
 
 /* Metric function */
-float metric(float x, float y, float p){
-    return sqrt(x*x + y*y);
+double metric(float x, float y, double p){
+    switch ((int) p)
+    {
+    case 1:
+        return _abs(x) + _abs(y);
+    case 2:
+        return sqrt(x*x + y*y);
+    default:
+        return pow((pow(_abs(x), p) + pow(_abs(y), p)), 1/p);
+    }
 }
 
 /* Business logic */
@@ -24,8 +32,8 @@ int is_circle(int px, int py, float cx, float cy, float radius){
     float x = xd(px) - cx;
     float y = yd(py) - cy;
 
-    float distance = metric(x, y, 1.);
-
+    float distance = metric(x, y, 2);
+    
     int verify = distance < radius;
 
     return verify*255;
@@ -41,9 +49,7 @@ int main(void){
     
     for (int px=0 ; px<W ; px++){
         for (int py=0 ; py<H ; py++){
-            img[ravel(px,py,0)] = is_circle(px, py, 0., .0, 1.);
-            img[ravel(px,py,1)] = is_circle(px, py, 0., .0, 1.5);
-            img[ravel(px,py,2)] = is_circle(px, py, 1.25, .0, 1.75);
+            img[ravel(px,py,0)] = is_circle(px, py, 0., .0, 1);
         }
     }
 
