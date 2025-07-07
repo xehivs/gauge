@@ -6,12 +6,16 @@
 
 /* Constants */
 const float PI = 3.1416;
-const int W = 1024, H = 1024;
+const int W = 512, H = 512;
 const float M = 2., FX = 0, FY = .0;
 
 /* Digital image mapping */
 float xd(int px){ return (2*M*px/(W-1))-M-FX; }
 float yd(int py){ return (2*M*py/(H-1))-M-FY; }
+
+int dx(float x){ return ((x+M)/(2*M))*(W-1); }
+int dy(float y){ return ((y+M)/(2*M))*(H-1); }
+
 int ravel(int x, int y, int c) { return (x+y*W)*3+c; } // ravel
 
 /* Metric function */
@@ -33,23 +37,57 @@ int is_circle(int px, int py, float cx, float cy, float radius){
     float y = yd(py) - cy;
 
     float distance = metric(x, y, 2);
-    
+
+    float lw = .01;
     int verify = distance < radius;
+    // int verify = (distance < radius + lw) && (distance > radius - lw);
 
     return verify*255;
 }
 
 /* main() function */
 int main(void){
-    printf("Arche gauge start\n");
-
+    // Reserve memory for image
     unsigned char *img = NULL;
     img = (unsigned char *)malloc(3*W*H);    
-    memset(img,0,3*W*H);
+    memset(img,32,3*W*H);
     
+    // Reserve memory for seed
+    int q = 32;
+    double *seed = NULL;
+    seed = (double *)malloc(sizeof(double) * 2 * q);
+    memset(seed,0.,2*q);
+
+    /* Seed loop */
+    for (int i = 0 ; i < q ; i++){
+        double val = i * (2*PI)/q;
+        double vs = sin(val);
+        double vc = cos(val);
+
+        // printf("%i [%.3f %.3f]\n", i, vs, vc);
+        seed[i] = vs;
+        seed[i+q] = vc;
+    }
+    
+    for (int i = 0 ; i < q ; i++) {
+        double vs = seed[i];
+        double vc = seed[i+q];
+
+        int px = dx(vs);
+        int py = dy(vc);
+
+        img[ravel(px,py,0)] = 255;
+        img[ravel(px,py,1)] = 255;
+        img[ravel(px,py,2)] = 255;
+    }
+
     for (int px=0 ; px<W ; px++){
         for (int py=0 ; py<H ; py++){
-            img[ravel(px,py,0)] = is_circle(px, py, 0., .0, 1);
+            if (is_circle(px, py, 0., .0, .25)) {
+                img[ravel(px,py,0)] = 255;
+                img[ravel(px,py,1)] = 255;
+                img[ravel(px,py,2)] = 255;
+            }
         }
     }
 
