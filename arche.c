@@ -53,10 +53,16 @@ int main(void){
     memset(img,32,3*W*H);
     
     // Reserve memory for seed
-    int q = 32;
+    int q = 128;
     double *seed = NULL;
     seed = (double *)malloc(sizeof(double) * 2 * q);
     memset(seed,0.,2*q);
+
+    // expand seed
+    int n = q * q;
+    double *expansion = NULL;
+    expansion = (double *)malloc(sizeof(double) * 2 * n);
+    memset(expansion,0.,2*n);
 
     /* Seed loop */
     for (int i = 0 ; i < q ; i++){
@@ -64,11 +70,28 @@ int main(void){
         double vs = sin(val);
         double vc = cos(val);
 
-        // printf("%i [%.3f %.3f]\n", i, vs, vc);
         seed[i] = vs;
         seed[i+q] = vc;
     }
+
+    /* Expansion loop */
+    for (int i = 0 ; i < q ; i++){
+        for (int j = 0 ; j < q ; j++){
+            double ax = seed[i];
+            double ay = seed[i+q];
+
+            double bx = seed[j];
+            double by = seed[j+q];
+
+            double x = ax + bx;
+            double y = ay + by;
+
+            expansion[i+j*q] = x;
+            expansion[i+j*q+n] = y;
+        }
+    }
     
+    /* plotting */
     for (int i = 0 ; i < q ; i++) {
         double vs = seed[i];
         double vc = seed[i+q];
@@ -81,15 +104,31 @@ int main(void){
         img[ravel(px,py,2)] = 255;
     }
 
-    for (int px=0 ; px<W ; px++){
-        for (int py=0 ; py<H ; py++){
-            if (is_circle(px, py, 0., .0, .25)) {
-                img[ravel(px,py,0)] = 255;
-                img[ravel(px,py,1)] = 255;
-                img[ravel(px,py,2)] = 255;
-            }
-        }
+    for (int i = 0 ; i < n ; i++) {
+        double vs = expansion[i];
+        double vc = expansion[i+n];
+
+        int px = dx(vs);
+        int py = dy(vc);
+
+        img[ravel(px,py,0)] = 255;
+        img[ravel(px,py,1)] = 255;
+        img[ravel(px,py,2)] = 255;
+
+        // img[ravel(px,py,0)] = img[ravel(px,py,0)] % 255;
+        // img[ravel(px,py,1)] = img[ravel(px,py,1)] % 255;
+        // img[ravel(px,py,2)] = img[ravel(px,py,2)] % 255;
     }
+
+    // for (int px=0 ; px<W ; px++){
+    //     for (int py=0 ; py<H ; py++){
+    //         if (is_circle(px, py, 0., .0, .25)) {
+    //             img[ravel(px,py,0)] = 255;
+    //             img[ravel(px,py,1)] = 255;
+    //             img[ravel(px,py,2)] = 255;
+    //         }
+    //     }
+    // }
 
     bmp(img, W, H);
 
