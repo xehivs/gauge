@@ -5,6 +5,27 @@ double _abs(double v){
     return v;
 }
 
+int _iabs(int v){
+    if (v < 0) {
+        return -v;
+    }
+    return v;
+}
+
+double *array(int width, int height){
+    double *_array = NULL;
+    _array = (double *)malloc(sizeof(double)*width*height);
+    memset(_array,0.,width*height);
+    return _array;
+}
+
+unsigned char *dimage(int width, int height){
+    unsigned char *_dimage = NULL;
+    _dimage = (unsigned char *)malloc(sizeof(double)*width*height*3);
+    memset(_dimage,0.,width*height*3);
+    return _dimage;
+}
+
 void bmp(unsigned char * image, int w, int h){
     FILE *f;
     

@@ -6,12 +6,12 @@
 
 /* Constants */
 const float PI = 3.1416;
-const int W = 512, H = 512;
-const float M = 2., FX = 0, FY = .0;
+const int W = 256, H = 256;
+const float M = 2.125;
 
 /* Digital image mapping */
-float xd(int px){ return (2*M*px/(W-1))-M-FX; }
-float yd(int py){ return (2*M*py/(H-1))-M-FY; }
+float xd(int px){ return (2*M*px/(W-1))-M; }
+float yd(int py){ return (2*M*py/(H-1))-M; }
 
 int dx(float x){ return ((x+M)/(2*M))*(W-1); }
 int dy(float y){ return ((y+M)/(2*M))*(H-1); }
@@ -40,33 +40,48 @@ int is_circle(int px, int py, float cx, float cy, float radius){
 
     float lw = .01;
     int verify = distance < radius;
-    // int verify = (distance < radius + lw) && (distance > radius - lw);
 
     return verify*255;
 }
 
+int *line(float ax, float ay, float bx, float by) {
+    int dax = dx(ax), day = dy(ay);
+    int dbx = dx(bx), dby = dy(by);
+
+    int mx = _iabs(dax - dbx);
+    int my = _iabs(day - dby);
+
+    int n_points = mx > my ? mx : my;
+
+    int *_line = NULL;
+    _line = (int *)malloc(sizeof(int) * (n_points * 2 + 1));
+    _line[0] = n_points;
+
+    for (int i = 0 ; i < n_points ; i++){
+        _line[i+1] = dx(ax+(i*_abs(ax-bx)/n_points));
+        _line[i+1+n_points] = dy(ay+(i*_abs(ay-by)/n_points));
+    }
+
+    return _line;
+}
+
 /* main() function */
 int main(void){
+    int q = 32;     // number of quants (angles)
+    int n = q * q;  // number of derivatives
+
     // Reserve memory for image
-    unsigned char *img = NULL;
-    img = (unsigned char *)malloc(3*W*H);    
-    memset(img,32,3*W*H);
+    unsigned char *img = dimage(W,H);
     
-    // Reserve memory for seed
-    int q = 128;
-    double *seed = NULL;
-    seed = (double *)malloc(sizeof(double) * 2 * q);
-    memset(seed,0.,2*q);
+    // Reserve memory for point location
+    double *seed = array(2, q);
+    double *expansion = array(2,n);
+    double *reduction = array(2,n);
 
-    // expand seed
-    int n = q * q;
-    double *expansion = NULL;
-    expansion = (double *)malloc(sizeof(double) * 2 * n);
-    memset(expansion,0.,2*n);
-
-    /* Seed loop */
+    /* Seed loop [circular] */
     for (int i = 0 ; i < q ; i++){
         double val = i * (2*PI)/q;
+
         double vs = sin(val);
         double vc = cos(val);
 
@@ -83,15 +98,31 @@ int main(void){
             double bx = seed[j];
             double by = seed[j+q];
 
-            double x = ax + bx;
-            double y = ay + by;
-
-            expansion[i+j*q] = x;
-            expansion[i+j*q+n] = y;
+            double x = 0.;
+            double y = 0.;
+            
+            expansion[i+j*q] = ax + bx;
+            expansion[i+j*q+n] = ay + by;
+            
+            reduction[i+j*q] = ax * bx;
+            reduction[i+j*q+n] = ay * by;
         }
     }
     
     /* plotting */
+    // Example line
+    int *_line = line(0, 0, 1, .5);
+
+    printf("%i !!!\n", _line[0]);
+    
+    // Plot seed
+    for (int i = 1 ; i < _line[0] + 1 ; i++){
+        int px = _line[i];
+        int py = _line[i+_line[0]];
+        img[ravel(px, py, 2)] = 255;
+    }
+
+
     for (int i = 0 ; i < q ; i++) {
         double vs = seed[i];
         double vc = seed[i+q];
@@ -105,30 +136,31 @@ int main(void){
     }
 
     for (int i = 0 ; i < n ; i++) {
-        double vs = expansion[i];
-        double vc = expansion[i+n];
+        double vs = 0;
+        double vc = 0;
+        int px = 0;
+        int py = 0;
 
-        int px = dx(vs);
-        int py = dy(vc);
+        vs = expansion[i];
+        vc = expansion[i+n];
+
+        px = dx(vs);
+        py = dy(vc);
 
         img[ravel(px,py,0)] = 255;
         img[ravel(px,py,1)] = 255;
+        // img[ravel(px,py,2)] = 255;
+
+        vs = reduction[i];
+        vc = reduction[i+n];
+
+        px = dx(vs);
+        py = dy(vc);
+
+        img[ravel(px,py,0)] = 255;
+        // img[ravel(px,py,1)] = 255;
         img[ravel(px,py,2)] = 255;
-
-        // img[ravel(px,py,0)] = img[ravel(px,py,0)] % 255;
-        // img[ravel(px,py,1)] = img[ravel(px,py,1)] % 255;
-        // img[ravel(px,py,2)] = img[ravel(px,py,2)] % 255;
     }
-
-    // for (int px=0 ; px<W ; px++){
-    //     for (int py=0 ; py<H ; py++){
-    //         if (is_circle(px, py, 0., .0, .25)) {
-    //             img[ravel(px,py,0)] = 255;
-    //             img[ravel(px,py,1)] = 255;
-    //             img[ravel(px,py,2)] = 255;
-    //         }
-    //     }
-    // }
 
     bmp(img, W, H);
 
