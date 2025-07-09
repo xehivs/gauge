@@ -1,3 +1,3 @@
 # `gauge`
 
-![](foo.png)
+![](foo.bmp)
