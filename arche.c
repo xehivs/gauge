@@ -9,7 +9,7 @@
 
 int main(void){
     // Variables
-    int q = 32;     // number of quants (angles)
+    int q = 128;     // number of quants (angles)
     
     // Reserve memory for image
     unsigned char *image = dimage(W,H);
@@ -20,7 +20,7 @@ int main(void){
     double *reduction = reduce(seed, q);
     
     // Plot
-    plot(image, seed, q);
+    scatter(image, seed, q);
     plot(image, expansion, q*q);
     plot(image, reduction, q*q);
 
