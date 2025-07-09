@@ -6,8 +6,8 @@
 float xd(int px){ return (2*M*px/(W-1))-M; }
 float yd(int py){ return (2*M*py/(H-1))-M; }
 
-int dx(float x){ return ((x+M)/(2*M))*(W-1); }
-int dy(float y){ return ((y+M)/(2*M))*(H-1); }
+int dx(float x){ return (int)(((x+M)/(2*M))*(W-1))%W; }
+int dy(float y){ return (int)(((y+M)/(2*M))*(H-1))%H; }
 
 /* Circular addresation */
 int ravel(int x, int y, int c) { return (x+y*W)*3+c; }
