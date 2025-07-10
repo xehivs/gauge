@@ -58,9 +58,9 @@ void scatter(unsigned char* image, double *X, int n){
         int px = dx(x);
         int py = dy(y);
 
-        image[ravel(px,py,0)] = 255;
-        image[ravel(px,py,1)] = 255;
-        image[ravel(px,py,2)] = 255;
+        image[ravel(px,py,0)] += 254;
+        image[ravel(px,py,1)] += 253;
+        image[ravel(px,py,2)] += 252;
     }
 }
 
@@ -75,4 +75,11 @@ void plot(unsigned char* image, double *X, int n){
         _x = x;
         _y = y;
     }
+}
+
+void print_reg(double *reg, int n){
+    for (int i = 0 ; i < n ; i++){
+        printf("[%.3f] ", reg[i]);
+    }
+    printf("\n\n");
 }
