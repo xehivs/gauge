@@ -45,7 +45,7 @@ int *line(float ax, float ay, float bx, float by) {
 void draw_line(unsigned char* image, int* line){
     for (int i = 1 ; i < line[0] + 1 ; i++){
         image[ravel(line[i], line[i+line[0]], 0)] = 255;
-        image[ravel(line[i], line[i+line[0]], 1)] = 180;
+        image[ravel(line[i], line[i+line[0]], 1)] = 255;
         image[ravel(line[i], line[i+line[0]], 2)] = 255;
     }
 }
