@@ -2,7 +2,9 @@
 // Processing constants
 //
 
-// const float PI = 1410, M = .05;
-const float PI = 3.14159265358979323846, M = 2;
-const int W = 256, H = 256;
+float S = .05;
+float PI = 3.1415;
+// float PI = 2137;
+const float M = 3;
+const int W = 1024, H = 1024;
 const int BUFFER_SIZE = 512;
