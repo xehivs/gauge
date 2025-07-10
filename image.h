@@ -10,7 +10,7 @@ int dx(float x){ return (int)(((x+M)/(2*M))*(W-1))%W; }
 int dy(float y){ return (int)(((y+M)/(2*M))*(H-1))%H; }
 
 /* Circular addresation */
-int ravel(int x, int y, int c) { return (x+y*W)*3+c; }
+int ravel(int x, int y, int c) { return ((dabs(x)%H)+(((dabs(y)%W)*W)))*3+c; }
 
 /* Image generation */
 unsigned char *dimage(int width, int height){
@@ -20,6 +20,7 @@ unsigned char *dimage(int width, int height){
     return _dimage;
 }
 
+/* Write a bitmap to disk */
 void bmp(unsigned char * image, int w, int h, char *filename){
     FILE *f;
     
