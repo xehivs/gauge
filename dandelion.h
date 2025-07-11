@@ -58,9 +58,12 @@ void scatter(unsigned char* image, double *X, int n){
         int px = dx(x);
         int py = dy(y);
 
-        image[ravel(px,py,0)] += 254;
-        image[ravel(px,py,1)] += 253;
-        image[ravel(px,py,2)] += 252;
+        // image[ravel(px,py,0)] += 31;
+        // image[ravel(px,py,1)] += 32;
+        // image[ravel(px,py,2)] += 33;
+        image[ravel(px,py,0)] = 255;
+        image[ravel(px,py,1)] = 255;
+        image[ravel(px,py,2)] = 255;
     }
 }
 
