@@ -1,8 +1,8 @@
 import numpy as np
 np.set_printoptions(suppress=True, precision=True)
 
-q = 10000;
-l = 32;
+q = 1000;
+l = 8;
 ls = np.linspace(-np.pi*l,l*np.pi,q)
 A = np.sin(ls)
 

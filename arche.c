@@ -7,7 +7,7 @@
 #include "image.h"
 #include "dandelion.h"
 
-int frameskip = 64;
+int frameskip = 1;
 
 int main(int argc, char **argv){
     // Restrict parameter
