@@ -3,8 +3,8 @@
 //
 
 float S = .1;
-float PI = 3.1415;
-// float PI = 123;
-const float M = 5;
+float PI = 1410;
+const float M = 3;
 const int W = 1024, H = 1024;
-const int BUFFER_SIZE = 2048;
+const int BUFFER_SIZE = 10000;
+const int frameskip = 2;

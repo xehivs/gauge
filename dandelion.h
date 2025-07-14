@@ -1,3 +1,7 @@
+//
+// Canvas decorators
+//
+
 int is_circle(int px, int py, float cx, float cy, float radius){
     float x = xd(px) - cx;
     float y = yd(py) - cy;
@@ -24,7 +28,7 @@ int *line(float ax, float ay, float bx, float by) {
     int mx = dabs(dax - dbx);
     int my = dabs(day - dby);
     int n_points = mx > my ? mx : my;
-    // n_points = 4;
+    n_points = 16;
 
     // Allocate memory
     int *_line = NULL;
@@ -58,12 +62,9 @@ void scatter(unsigned char* image, double *X, int n){
         int px = dx(x);
         int py = dy(y);
 
-        image[ravel(px,py,0)] += 33;
-        image[ravel(px,py,1)] += 32;
-        image[ravel(px,py,2)] += 31;
-        // image[ravel(px,py,0)] = 255;
-        // image[ravel(px,py,1)] = 255;
-        // image[ravel(px,py,2)] = 255;
+        image[ravel(px,py,0)] = 255;
+        image[ravel(px,py,1)] = 255;
+        image[ravel(px,py,2)] = 255;
     }
 }
 
