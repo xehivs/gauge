@@ -67,11 +67,11 @@ double metric(float x, float y, double p){
 }
 
 /* Prepare circular seed loop [Apostle] */
-double *circle(int q, double *nreg){
+double *circle(int q, double *nreg, double theta){
     double *seed = array(2, q);
 
     for (int i = 0 ; i < q ; i++){
-        double val = i * (2*PI)/q;
+        double val = i * (2*theta)/q;
 
         double vs = sin(val) * (1+nreg[i]*S);
         double vc = cos(val) * (1+nreg[i]*S);

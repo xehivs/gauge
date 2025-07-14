@@ -46,15 +46,13 @@ int *line(float ax, float ay, float bx, float by) {
     return _line;
 }
 
-void draw_line(unsigned char* image, int* line){
+void draw_line(unsigned char* image, int* line, int d){
     for (int i = 1 ; i < line[0] + 1 ; i++){
-        image[ravel(line[i], line[i+line[0]], 0)] = 255;
-        image[ravel(line[i], line[i+line[0]], 1)] = 255;
-        image[ravel(line[i], line[i+line[0]], 2)] = 255;
+        image[ravel(line[i], line[i+line[0]], d)] += unit_energy;
     }
 }
 
-void scatter(unsigned char* image, double *X, int n){
+void scatter(unsigned char* image, double *X, int n, int d){
     for (int i = 0 ; i < n ; i++) {
         double x = X[i];
         double y = X[i+n];
@@ -62,19 +60,17 @@ void scatter(unsigned char* image, double *X, int n){
         int px = dx(x);
         int py = dy(y);
 
-        image[ravel(px,py,0)] = 255;
-        image[ravel(px,py,1)] = 255;
-        image[ravel(px,py,2)] = 255;
+        image[ravel(px,py,d)] += unit_energy;
     }
 }
 
-void plot(unsigned char* image, double *X, int n){
+void plot(unsigned char* image, double *X, int n, int d){
     double _x = X[n-1], _y = X[n-1+n];
     for (int i = 0 ; i < n ; i++) {
         double x = X[i];
         double y = X[i+n];
 
-        draw_line(image, line(_x, _y, x, y));
+        draw_line(image, line(_x, _y, x, y), d);
 
         _x = x;
         _y = y;

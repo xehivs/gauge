@@ -38,16 +38,25 @@ int main(int argc, char **argv){
 
             // Reserve memory for image
             unsigned char *image = dimage(W,H);
-            
-            // Calculate
-            double *seed = circle(q, nreg);     
-            double *expansion = expand(seed, q);
-            double *reduction = reduce(seed, q);
-            
-            // Plot
-            scatter(image, seed, q);
-            plot(image, expansion, q*q);
-            plot(image, reduction, q*q);
+
+            for (int d = 0 ; d < 3 ; d++) {
+                // Get theta
+                float theta = signature[d];
+
+                // Calculate
+                double *seed = circle(q, nreg, theta);     
+                double *expansion = expand(seed, q);
+                double *reduction = reduce(seed, q);
+                
+                // Plot
+                scatter(image, seed, q, d);
+                scatter(image, expansion, q*q, d);
+                scatter(image, reduction, q*q, d);
+
+                free(seed);
+                free(expansion);
+                free(reduction);
+            }            
 
             // Store
             char filename[16];
@@ -59,9 +68,6 @@ int main(int argc, char **argv){
             // Clean up before next iteration
             idx++;
 
-            free(seed);
-            free(expansion);
-            free(reduction);
             free(nreg);
         }
 
