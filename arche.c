@@ -7,8 +7,6 @@
 #include "image.h"
 #include "dandelion.h"
 
-int frameskip = 1;
-
 int main(int argc, char **argv){
     // Restrict parameter
     if (argc != 2) {
@@ -48,8 +46,8 @@ int main(int argc, char **argv){
             
             // Plot
             scatter(image, seed, q);
-            scatter(image, expansion, q*q);
-            scatter(image, reduction, q*q);
+            plot(image, expansion, q*q);
+            plot(image, reduction, q*q);
 
             // Store
             char filename[16];
