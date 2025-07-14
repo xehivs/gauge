@@ -38,7 +38,6 @@ int main(int argc, char **argv){
 
             // Reserve memory for image
             unsigned char *image = dimage(W,H);
-
             for (int d = 0 ; d < 3 ; d++) {
                 // Get theta
                 float theta = signature[d];
