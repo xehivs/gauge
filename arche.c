@@ -19,8 +19,8 @@ int main(int argc, char **argv){
     double *reg = malloc(sizeof(double) * q);   // Initialize register and head
     
     // Prepare storage for input
-    float val;
-    int idx, head, subidx = 0;
+    float val = 0.0;
+    int idx = 0, head = 0, subidx = 0;
     
     // Begin the operation loop
     do {
@@ -59,7 +59,7 @@ int main(int argc, char **argv){
 
             // Store
             char filename[16];
-            sprintf(filename, "cache/%04i.bmp", idx % BUFFER_SIZE);
+            sprintf(filename, "cache/%06i.bmp", idx);
 
             printf("%s\n", filename);
             bmp(image, W, H, filename);
