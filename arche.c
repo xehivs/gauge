@@ -1,11 +1,11 @@
-#include "variables.h"
+#include "module/variables.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "model.h"
-#include "image.h"
-#include "dandelion.h"
+#include "module/model.h"
+#include "module/image.h"
+#include "module/dandelion.h"
 
 int main(int argc, char **argv){
     // Restrict parameter

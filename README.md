@@ -1,3 +1,5 @@
 # `gauge`
 
-![](foo.bmp)
+Hi.
+
+![](docs/foo.bmp)
