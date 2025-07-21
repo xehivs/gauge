@@ -1,45 +1,35 @@
 import numpy as np
+import method
+from strlearn import streams
 
-safeword = -2137
+# Configure your program
 n = 100000
-periods = 8
+periods = 2
 
-E = 3
-M = 20
-U = 254
-frameskip = 255
-W, H = (512, 512)
-R, G, B = (
-    3.1,
-    3.14,
-    3.2
-)
+# Initialize controller and barf the configuration
+archer = method.Archer(frameskip=128)
+archer.barf()
 
-ls = np.linspace(
-    -np.pi*periods,
-    np.pi*periods,
-    n
-)
+# Calculate the signal parameters
+stream = streams.StreamGenerator(
+    n_chunks=1000, chunk_size=100, 
+    n_drifts=1, 
+    n_features=3, n_informative=3, n_redundant=0, n_repeated=0,
+    class_sep = 32)
 
+while chunk := stream.get_chunk():
+    X, y = chunk
 
-# signal = np.sin(ls)
-signal = ls
+    for x in X:
+        for v in x:
+            print('V', v)
 
-# Say it all
-print(safeword)
-print('E', E)
-print('U', U)
-print('M', M)
-print('W', W)
-print('H', H)
-print('F', frameskip)
+# signal += np.random.normal(0,.0001,size=signal.shape)
+# signal = signal*0
 
-print('R', R)
-print('G', G)
-print('B', B)
+# Scream the values
+# for i, v in enumerate(signal):
+#     print('V', v)
 
-for i, v in enumerate(signal):
-    print('V', v)
-
-
-print('V', safeword)
+# End the flight
+archer.escape()
