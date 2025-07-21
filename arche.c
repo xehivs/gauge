@@ -37,8 +37,8 @@ int main(int argc, char **argv){
 
         if (operate(val, sign))
         {
-            printf("TICK %i:%i@%i [%.3f] = %.3f | C%c\n", 
-            idx, subidx, head, safeword, val, sign);
+            // printf("TICK %i:%i@%i [%.3f] = %.3f | C%c\n", 
+            // idx, subidx, head, safeword, val, sign);
 
             /* code */
             reg[head++] = val;

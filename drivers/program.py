@@ -1,18 +1,18 @@
 import numpy as np
 
 safeword = -2137
-n = 1000
-periods = 1
+n = 100000
+periods = 8
 
-E = 1.5
-M = 15
+E = 3
+M = 20
 U = 254
-frameskip = 2
+frameskip = 255
 W, H = (512, 512)
 R, G, B = (
-    2137,
+    3.1,
     3.14,
-    1410
+    3.2
 )
 
 ls = np.linspace(
@@ -21,7 +21,9 @@ ls = np.linspace(
     n
 )
 
-signal = np.sin(ls)
+
+# signal = np.sin(ls)
+signal = ls
 
 # Say it all
 print(safeword)
@@ -38,7 +40,6 @@ print('B', B)
 
 for i, v in enumerate(signal):
     print('V', v)
- 
 
 
 print('V', safeword)
