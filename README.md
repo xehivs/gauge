@@ -9,3 +9,7 @@ Hi.
 ```bash
 ./scripts/boo.sh program 256
 ```
+
+## Example on data stream
+
+![](docs/foo.png)
