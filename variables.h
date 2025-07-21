@@ -1,14 +1,17 @@
 //
-// Processing variables
+// Steering variables
 //
 
-float _E = .5;              // elasticity
+float _E = 1.5;              // elasticity
 int _U = 31;                // image increment
-float _M = 5.;              // image margin
-int _W = 1024, _H = 1024;   // resolution
-int _frameskip = 16;        // frameskip
+float _M = 5;              // image margin
+int _W = 512, _H = 512;   // resolution
+int _frameskip = 256;        // frameskip
 float _signature[] = {      // spectral signature
-    3.1413,
-    3.1415,
-    3.1416
+    1410,
+    3.15,
+    2137
 };
+
+// Interface switches
+int _n_points = 0;  // vaporized [lines are tough]

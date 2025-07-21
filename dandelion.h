@@ -28,7 +28,9 @@ int *line(float ax, float ay, float bx, float by) {
     int mx = dabs(dax - dbx);
     int my = dabs(day - dby);
     int n_points = mx > my ? mx : my;
-    n_points = 16;
+    if (_n_points > 0){
+        n_points = _n_points;
+    }
 
     // Allocate memory
     int *_line = NULL;

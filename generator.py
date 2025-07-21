@@ -1,7 +1,7 @@
 import numpy as np
 np.set_printoptions(suppress=True, precision=True)
 
-q = 2000;
+q = 100000;
 l = 4;
 ls = np.linspace(-np.pi*l,l*np.pi,q)
 A = np.sin(ls)
