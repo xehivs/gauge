@@ -1,4 +1,4 @@
-#include "const.h"
+#include "variables.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,17 +30,17 @@ int main(int argc, char **argv){
         head = head % q;
         subidx++;
 
-        if (subidx == frameskip){
+        if (subidx == _frameskip){
             subidx = 0;
 
             // Normalize register
             double *nreg = norm(reg, q);
 
             // Reserve memory for image
-            unsigned char *image = dimage(W,H);
+            unsigned char *image = dimage(_W,_H);
             for (int d = 0 ; d < 3 ; d++) {
                 // Get theta
-                float theta = signature[d];
+                float theta = _signature[d];
 
                 // Calculate
                 double *seed = circle(q, nreg, theta);     
@@ -62,7 +62,7 @@ int main(int argc, char **argv){
             sprintf(filename, "cache/%06i.bmp", idx);
 
             printf("%s\n", filename);
-            bmp(image, W, H, filename);
+            bmp(image, _W, _H, filename);
 
             // Clean up before next iteration
             idx++;

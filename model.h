@@ -73,8 +73,8 @@ double *circle(int q, double *nreg, double theta){
     for (int i = 0 ; i < q ; i++){
         double val = i * (2*theta)/q;
 
-        double vs = sin(val) * (1+nreg[i]*S);
-        double vc = cos(val) * (1+nreg[i]*S);
+        double vs = sin(val) * (1+nreg[i]*_E);
+        double vc = cos(val) * (1+nreg[i]*_E);
 
         seed[i] = vs;
         seed[i+q] = vc;

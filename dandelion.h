@@ -48,7 +48,7 @@ int *line(float ax, float ay, float bx, float by) {
 
 void draw_line(unsigned char* image, int* line, int d){
     for (int i = 1 ; i < line[0] + 1 ; i++){
-        image[ravel(line[i], line[i+line[0]], d)] += unit_energy;
+        image[ravel(line[i], line[i+line[0]], d)] += _U;
     }
 }
 
@@ -60,7 +60,7 @@ void scatter(unsigned char* image, double *X, int n, int d){
         int px = dx(x);
         int py = dy(y);
 
-        image[ravel(px,py,d)] += unit_energy;
+        image[ravel(px,py,d)] += _U;
     }
 }
 

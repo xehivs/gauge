@@ -3,14 +3,14 @@
 //
 
 /* Directional conversion */
-float xd(int px){ return (2*M*px/(W-1))-M; }
-float yd(int py){ return (2*M*py/(H-1))-M; }
+float xd(int px){ return (2*_M*px/(_W-1))-_M; }
+float yd(int py){ return (2*_M*py/(_H-1))-_M; }
 
-int dx(float x){ return (int)(((x+M)/(2*M))*(W-1))%W; }
-int dy(float y){ return (int)(((y+M)/(2*M))*(H-1))%H; }
+int dx(float x){ return (int)(((x+_M)/(2*_M))*(_W-1))%_W; }
+int dy(float y){ return (int)(((y+_M)/(2*_M))*(_H-1))%_H; }
 
 /* Circular addresation */
-int ravel(int x, int y, int c) { return ((dabs(x)%H)+(((dabs(y)%W)*W)))*3+c; }
+int ravel(int x, int y, int c) { return ((dabs(x)%_H)+(((dabs(y)%_W)*_W)))*3+c; }
 
 /* Image generation */
 unsigned char *dimage(int width, int height){
