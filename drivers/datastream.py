@@ -17,3 +17,5 @@ while chunk := stream.get_chunk():
         print("%.5f" % x)
 
 print('-2137\n')
+
+print("V", -2137)

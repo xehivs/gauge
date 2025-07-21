@@ -85,3 +85,58 @@ void print_reg(double *reg, int n){
     }
     printf("\n\n");
 }
+
+/* INPUT TAIL */
+
+void flush(){
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+int operate(float val, char sign){
+    switch (sign)
+        {
+        case 'V':
+            return 1;
+        
+        case 'E':
+            _E = val;
+            printf("_E SET %.3f\n", _E);
+            return 0;
+        case 'U':
+            _U = (int) val;
+            printf("_U SET %.i\n", _U);
+            return 0;
+        case 'M':
+            _M = val;
+            printf("_M SET %.3f\n", _M);
+            return 0;
+        case 'W':
+            _W = (int) val;
+            printf("_W SET %i\n", _W);
+            return 0;
+        case 'H':
+            _H = (int) val;
+            printf("_H SET %i\n", _H);
+            return 0;
+        case 'F':
+            _frameskip = (int) val;
+            printf("_frameskip SET %i\n", _frameskip);
+            return 0;
+        case 'R':
+            _signature[0] = val;
+            printf("_R SET %.3f\n", _signature[0]);
+            return 0;
+        case 'G':
+            _signature[1] = val;
+            printf("_G SET %.3f\n", _signature[1]);
+            return 0;
+        case 'B':
+            _signature[2] = val;
+            printf("_B SET %.3f\n", _signature[2]);
+            return 0;
+        default:
+            return 0;
+            break;
+        }
+}

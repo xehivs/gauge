@@ -20,6 +20,33 @@ unsigned char *dimage(int width, int height){
     return _dimage;
 }
 
+/* Monochromize image */
+void mono(unsigned char * image, int w, int h){
+    for(int i = 0 ; i < w ; i++){
+        for(int j=0 ; j < h ; j++){
+            int v = image[ravel(i,j,0)]+image[ravel(i,j,1)]+image[ravel(i,j,2)];
+            if (v>0){
+                image[ravel(i,j,0)] = v/3;
+                image[ravel(i,j,1)] = v/3;
+                image[ravel(i,j,2)] = v/3;
+            }
+        };
+    };
+}
+
+/* Negate image*/
+void negate(unsigned char * image, int w, int h){
+    for(int i = 0 ; i < w ; i++){
+        for(int j=0 ; j < h ; j++){
+            for(int d=0 ; d < 3 ; d++){
+                image[ravel(i,j,d)] = 255-image[ravel(i,j,d)];
+            }
+        };
+    };
+}
+
+
+
 /* Write a bitmap to disk */
 void bmp(unsigned char * image, int w, int h, char *filename){
     FILE *f;
