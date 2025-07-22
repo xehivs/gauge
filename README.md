@@ -13,3 +13,5 @@ Hi.
 ## Example on data stream
 
 ![](docs/foo.png)
+![](docs/bar.png)
+![](docs/baz.png)

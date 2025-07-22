@@ -33,7 +33,8 @@ stream = streams.StreamGenerator(
     n_drifts=3,
     n_features=n_features, n_informative=4, n_redundant=0, n_repeated=0,
     n_classes=3,
-    random_state=1410
+    # concept_sigmoid_spacing=5,
+    # random_state=1410
 )
 buffer = np.zeros((buffer_length, n_features))
 

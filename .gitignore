@@ -3,3 +3,5 @@ __pycache__
 arche
 .vscode
 cache/*.bmp
+smooth/*.png
+pictures.npy
