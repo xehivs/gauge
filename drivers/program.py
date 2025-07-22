@@ -13,14 +13,14 @@ buffer_length = 64
 # Initialize controller and barf the configuration
 archer = method.Archer(
     frameskip=reg_width,
-    E=.5,
-    M=7.5,
+    E=.1,
+    M=3,
     W=256,
     H=256,
-    U=254,
-    R=2137,
-    G=3.16,
-    B=1410
+    U=31,
+    R=112,
+    G=1411,
+    B=3.14
     )
 archer.barf()
 
@@ -33,8 +33,7 @@ stream = streams.StreamGenerator(
     n_drifts=3,
     n_features=n_features, n_informative=4, n_redundant=0, n_repeated=0,
     n_classes=3,
-    # concept_sigmoid_spacing=5,
-    # random_state=1410
+    random_state=1410
 )
 buffer = np.zeros((buffer_length, n_features))
 

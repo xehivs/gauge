@@ -20,7 +20,7 @@ fig.patch.set_facecolor('black')
 idxs = np.linspace(0,count-1,rows*cols).astype(np.int32)
 
 # Prepare buffer
-b_length = 24
+b_length = 12
 buffer = np.zeros((b_length, *res))
 last_picture = np.zeros(res)
 vs = []

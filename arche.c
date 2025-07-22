@@ -76,7 +76,7 @@ int main(int argc, char **argv){
     
                 // Posterior process
                 // negate(image, _W, _H);
-                // mono(image, _W, _H);
+                mono(image, _W, _H);
     
                 // Store
                 char filename[16];
