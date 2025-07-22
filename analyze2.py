@@ -7,47 +7,93 @@ data = np.load('pictures.npy')
 data = data.reshape(data.shape[0], -1)
 print(data.shape)
 
+data = data[24:]
+
 pca = PCA(n_components=3)
 pca.fit(data)
+
 
 data_arranged = pca.transform(data)
 data_arranged = data_arranged/np.max(np.abs(data_arranged))
 
-fig, ax = plt.subplots(2,2,figsize=(6,6))
-time = np.linspace(0,1,data.shape[0])
 
-ax[0,0].scatter(
-    data_arranged[:,0],
-    data_arranged[:,1],
-    c=time,
-    cmap='Spectral')
+bw = 8
 
-ax[0,1].scatter(
-    data_arranged[:,0],
-    data_arranged[:,2],
-    c=time,
-    cmap='Spectral')
+fig, ax = plt.subplots(2,4,figsize=(bw,bw/1.618))
 
-ax[1,0].scatter(
-    data_arranged[:,1],
-    data_arranged[:,2],
-    c=time,
-    cmap='Spectral')
 
 rgb = ((data_arranged+1)/2)[:, None]
 
-ax[1,1].imshow(rgb.swapaxes(0,1), aspect=rgb.shape[0])
+time = np.linspace(0,1,rgb.shape[0])
 
-for aa in ax.ravel()[:3]:
+pairs = [
+    [0,1],
+    [1,0],
+    [0,2],
+    [1,2]
+]
+
+for i, pair in enumerate(pairs):
+    a, b = pair
+    ax.ravel()[i].scatter(
+        data_arranged[:,a],
+        data_arranged[:,b],
+        s=500,
+        alpha=.1,
+        c=rgb)
+
+    ax.ravel()[i].plot(
+        data_arranged[:,a], data_arranged[:,b],
+        lw=1,
+        c='white',
+        alpha=.5
+    )
+
+    ax.ravel()[i].scatter(
+        [data_arranged[0,a]], [data_arranged[0,b]],
+        marker='o',
+        c='white',
+        s=50
+    )
+
+    ax.ravel()[i].scatter(
+        [data_arranged[-1,a]], [data_arranged[-1,b]],
+        marker='o',
+        c='white',
+        s=400
+    )
+
+    ax.ravel()[i].scatter(
+        [data_arranged[-1,a]], [data_arranged[-1,b]],
+        marker='o',
+        c='black',
+        s=50,
+        zorder=1000
+    )
+
+for aa in ax.ravel():
     aa.spines['top'].set_visible(False)
     aa.spines['right'].set_visible(False)
+    aa.spines['left'].set_visible(False)
+    aa.spines['bottom'].set_visible(False)
     aa.grid(ls=":")
 
-    aa.set_xlim(-1,1)
-    aa.set_ylim(-1,1)
+    m = 1.5
 
-    aa.set_xticks(np.linspace(-1,1,5))
-    aa.set_yticks(np.linspace(-1,1,5))
+    aa.set_xlim(-m,m)
+    aa.set_ylim(-m,m)
+
+    aa.set_xticks([])
+    aa.set_yticks([])
+
+pax = plt.subplot(212)
+pax.imshow(rgb.swapaxes(0,1), aspect=rgb.shape[0]/4)
+pax.set_xticks([])
+pax.set_yticks([])
+pax.spines['top'].set_visible(False)
+pax.spines['right'].set_visible(False)
+pax.spines['left'].set_visible(False)
+pax.spines['bottom'].set_visible(False)
 
 plt.tight_layout()
 plt.savefig('docs/baz.png')
