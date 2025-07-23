@@ -18,12 +18,9 @@ archer = method.Archer(
     W=256,
     H=256,
     U=31,
-    # R=2137,
-    # G=3.1415,
-    # B=1410
-    R=3.1414,
-    G=3.1415,
-    B=5
+    R=3.14,
+    G=3.16,
+    B=3.18
     )
 archer.barf()
 archer.white(10000)
@@ -33,8 +30,8 @@ n_components = 8
 n_features = 16
 
 stream = streams.StreamGenerator(
-    n_chunks=100, chunk_size=100,
-    n_drifts=3,
+    n_chunks=200, chunk_size=100,
+    n_drifts=2,
     n_features=n_features, n_informative=4, n_redundant=0, n_repeated=0,
     n_classes=3,
 )
