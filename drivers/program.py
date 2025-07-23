@@ -19,21 +19,21 @@ archer = method.Archer(
     H=256,
     U=31,
     R=3.14,
-    G=3.16,
-    B=3.18
+    G=3.18,
+    B=3.22
     )
 archer.barf()
 archer.white(10000)
 
 # Calculate the signal parameters
-n_components = 8
+n_components = 4
 n_features = 16
 
 stream = streams.StreamGenerator(
-    n_chunks=200, chunk_size=100,
-    n_drifts=2,
+    n_chunks=200, chunk_size=200,
+    n_drifts=3,
     n_features=n_features, n_informative=4, n_redundant=0, n_repeated=0,
-    n_classes=3,
+    n_classes=2,
 )
 buffer = np.zeros((buffer_length, n_features))
 
