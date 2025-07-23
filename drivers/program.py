@@ -2,18 +2,18 @@ import numpy as np
 import method
 from strlearn import streams
 from sklearn.decomposition import PCA
+import sys
 
 # Configure your program
 n = 100000
-periods = 2
-reg_width = 256
+reg_width = int(sys.argv[1])
 inertion_level = 100
-buffer_length = 64
+buffer_length = 100
 
 # Initialize controller and barf the configuration
 archer = method.Archer(
     frameskip=reg_width-1,
-    E=.5,
+    E=1,
     M=3,
     W=256,
     H=256,
@@ -33,7 +33,7 @@ stream = streams.StreamGenerator(
     n_chunks=200, chunk_size=200,
     n_drifts=3,
     n_features=n_features, n_informative=4, n_redundant=0, n_repeated=0,
-    n_classes=2,
+    n_classes=5,
 )
 buffer = np.zeros((buffer_length, n_features))
 

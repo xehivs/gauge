@@ -4,5 +4,6 @@ __pycache__
 *.mp4
 cache/*.bmp
 smooth/*.png
+gear/*.png
 pictures.npy
 concept-track.npz
