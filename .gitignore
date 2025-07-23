@@ -1,7 +1,8 @@
-__pycache__
-*.mp4
 arche
 .vscode
+__pycache__
+*.mp4
 cache/*.bmp
 smooth/*.png
 pictures.npy
+concept-track.npz

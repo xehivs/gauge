@@ -30,6 +30,13 @@ class Archer():
         print('R', self.R)
         print('G', self.G)
         print('B', self.B)
+    
+    def white(
+        self,
+        length=1024):
+        signal = np.random.uniform(size=length)
+        for v in signal:
+            print('V', v)
 
     def escape(self):
         print('V', self.safeword)

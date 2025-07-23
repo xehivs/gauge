@@ -12,17 +12,21 @@ buffer_length = 64
 
 # Initialize controller and barf the configuration
 archer = method.Archer(
-    frameskip=reg_width,
+    frameskip=reg_width-1,
     E=.5,
     M=3,
     W=256,
     H=256,
     U=31,
-    R=2137,
+    # R=2137,
+    # G=3.1415,
+    # B=1410
+    R=3.1414,
     G=3.1415,
-    B=1410
+    B=5
     )
 archer.barf()
+archer.white(10000)
 
 # Calculate the signal parameters
 n_components = 8
@@ -33,14 +37,11 @@ stream = streams.StreamGenerator(
     n_drifts=3,
     n_features=n_features, n_informative=4, n_redundant=0, n_repeated=0,
     n_classes=3,
-    # class_sep=1000,
-    random_state=1410
 )
 buffer = np.zeros((buffer_length, n_features))
 
 # Prepare inertion array
 nara = np.zeros((reg_width, inertion_level))
-
 i, j = 0, 0
 while chunk := stream.get_chunk():
     X, y = chunk
@@ -61,4 +62,5 @@ while chunk := stream.get_chunk():
                 print('V', np.power(val,2))
 
 # End the flight
+archer.white(10000)
 archer.escape()
