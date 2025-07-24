@@ -1,3 +1,7 @@
+//
+// Arche -- windmill
+//
+
 #include "module/variables.h"
 #include <math.h>
 #include <stdio.h>
@@ -14,38 +18,38 @@ int main(int argc, char **argv){
         return 1;
     }
 
-    // Read register size from command line argument
-    int q = atoi(argv[1]);                      // number of quants (angles)
-    double *reg = malloc(sizeof(double) * q);   // Initialize register and head
+    // Read register size from command line argument and allocate it
+    int q = atoi(argv[1]);
+    double *reg = malloc(sizeof(double) * q);
     
-    // Prepare storage for input
+    // Prepare variables for handling input
     float val = 0.0;
     int idx = 0, head = 0, subidx = 0;
     char sign;
 
-    // Gather safeword
+    // Gather safeword from the first line of a stream
     float safeword = 0.0;
     scanf("%f", &safeword);
     flush();
 
     // Begin the operation loop
     do {
-        // Wait for the standard input to present you with a float and char
+        // Wait for a char followed by float
         sign = getchar();        
         scanf("%f", &val);
         flush();
 
+        // Operate on it
         if (operate(val, sign))
         {
-            // printf("TICK %i:%i@%i [%.3f] = %.3f | C%c\n", 
-            // idx, subidx, head, safeword, val, sign);
-
-            /* code */
+            // If sign==V update the register and counters
             reg[head++] = val;
             head = head % q;
             subidx++;
 
+            // At every given frameskip
             if (subidx == _frameskip){
+                // Clean the counter
                 subidx = 0;
     
                 // Normalize register
@@ -56,42 +60,41 @@ int main(int argc, char **argv){
                 
                 // Expose image
                 for (int d = 0 ; d < 3 ; d++) {
-                    // Get theta
+                    // Get spectral band angle theta
                     float theta = _signature[d];
     
-                    // Calculate
+                    // Calculate sample positions
                     double *seed = circle(q, nreg, theta);     
                     double *expansion = expand(seed, q);
                     double *reduction = reduce(seed, q);
                     
-                    // Plot
+                    // Scatter samples around pixels
                     scatter(image, seed, q, d);
                     scatter(image, expansion, q*q, d);
                     scatter(image, reduction, q*q, d);
     
+                    // Free memory
                     free(seed);
                     free(expansion);
                     free(reduction);
                 }            
     
-                // Posterior process
+                // Do the posterior process [vaporized]
                 // negate(image, _W, _H);
                 // mono(image, _W, _H);
     
-                // Store
+                // Save image on drive
                 char filename[16];
                 sprintf(filename, "cache/%06i.bmp", idx);
-    
                 printf("%s\n", filename);
                 bmp(image, _W, _H, filename);
     
-                // Clean up before next iteration
+                // Update frame counter and free memory
                 idx++;
-    
                 free(nreg);
             }
         }
-    } while (val != safeword);
+    } while (val != safeword);  // Until the safeword occur
 
     return 0;
 }

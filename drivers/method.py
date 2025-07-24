@@ -1,12 +1,15 @@
+"""
+Helper Python class for arche utilisation.
+"""
 import numpy as np
 
 class Archer():
     def __init__(
         self,
         safeword = -2137,
-        E = 3, M = 20, U = 254, 
+        E = 1, M = 3, U = 31, 
         W = 512, H = 512,
-        R = 3.1, G = 3.14, B = 3.2,
+        R = 3.14, G = 3.18, B = 3.22,
         frameskip = 255):
         self.safeword = safeword
         self.E = E
