@@ -86,7 +86,11 @@ int main(int argc, char **argv){
                 // Save image on drive
                 char filename[16];
                 sprintf(filename, "cache/%06i.bmp", idx);
-                printf("%s\n", filename);
+                // printf("%s\n", filename);
+                printf("%c", _grad[idx%l_grad]);
+                if (idx % 22 == 0){
+                    printf("%06i:\n", idx);
+                }
                 bmp(image, _W, _H, filename);
     
                 // Update frame counter and free memory

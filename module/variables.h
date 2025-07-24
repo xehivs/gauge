@@ -17,4 +17,7 @@ float _signature[] = {          // spectral signature
 
 // Interface switches
 int _n_points = 0;  // vaporized [lines are tough]
-
+char _grad[] = {
+    'A', 'B', 'C'
+};
+int l_grad = 3;
